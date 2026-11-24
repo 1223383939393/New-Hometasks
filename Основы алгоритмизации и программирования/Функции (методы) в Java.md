@@ -1,0 +1,130 @@
+ В контексте Java термины «функция» и «метод» фактически синонимичны. В языке нет отдельного понятия «функция» в том смысле, в каком оно существует в некоторых других языках программирования (например, в C или Python). Всё, что в других языках называется функцией, в Java реализуется через метод — именованный блок кода, определённый внутри класса. 
+ 
+ Метод — это именованный блок кода, который выполняет определённую задачу и может быть вызван из других мест программы. Это «строительный кирпичик» программы: вместо одного огромного main ты пишешь много маленьких функций, каждая из которых делает одну вещь.
+  Синтаксис метода:
+```java
+модификатор_доступа [static] возвращаемый_тип имя(параметры) { 
+	// тело метода 
+	return значение; // если тип не void 
+   } 
+```
+   Пример: 
+```java
+   public static int add(int a, int b) { 
+   return a + b; 
+   } 
+   int result = add(3, 5); // result = 8 
+```
+   
+   Что если написать в методе void? 
+   Метод станет невозвращаемым и написать return нужно ток для выхода из метода, то есть из него необязательно что то возвращать
+   Что делает return в методе? 
+   Возвращает значение соответствующее типу данных метода
+   Что такое параметры и аргументы в методе? 
+   Параметры это переменные в скобках, аргументы это инициализрованные значения параметров при вызове функции
+   Что такое перегрузка методов? Для чего она нужна? Плюсы и минусы 
+   Перегрузка методов - это создание нескольких методов с одинаковым названием и типом данных, но с различием в количестве или просто в аргументах, нужна чтобы не создавать разные методы для одной и той же задачи где нужно просто больше аргументов(может память экономит хз), плюсы чистый код и гибкость, минусы можно запутаться и не работает с наследованием
+   Рекурсия в методе? Зачем? Пример 
+   Рекурсия - это когда метод вызывает сам себя, нужно чтобы разбить задачу на подзадачи, используется например для нахождения фибоначчи, факториала и тп
+   ![[Pasted image 20261008135508.png]]
+   
+   Задача 1. Квадрат числа. Напиши метод square(int x), который возвращает квадрат числа. Вызови его для чисел 3, 5, 10. 
+```java
+	import java.util.Scanner;
+	
+	public class Main {
+	    public static void main(String[] args) {
+	        Scanner in = new Scanner(System.in);
+	        System.out.println(square(3));
+	        System.out.println(square(5));
+	        System.out.println(square(10));
+	    }
+	    static int square(int x) {
+	        return x * x;
+	    }
+	}
+```
+Задача 2. Максимум из двух. Напиши метод max(int a, int b), возвращающий большее из двух чисел. Затем перегрузи его: max(int a, int b, int c) — максимум из трёх. И проверь на: max(5, 10) max(5, 10, 3) max(7, 2, 9) 
+```java
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        System.out.println(max(5, 10));
+        System.out.println(max(5, 10, 3));
+        System.out.println(max(7, 2, 9));
+    }
+    static int max(int x, int y) {
+        if (x > y) {
+            return x;
+        }
+        else if(y > x) {
+            return y;
+        }
+        else {
+            return 0;
+        }
+    }
+    static int max(int x, int y, int z) {
+        if (x > y && x > z) {
+            return x;
+        }
+        else if(y > x && y > z) {
+            return y;
+        }
+        else if (z > x && z > y) {
+            return z;
+        }
+        else {
+            return 0;
+        }
+    }
+}
+```
+``
+
+   Задача 3: Напишите метод sum(int[] arr), возвращающий сумму элементов массива. Пустой массив — вернуть 0. 
+```java
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int[] arr = {6, 2, 4, 9};
+        System.out.println(sum(arr));
+    }
+
+    static int sum(int[] arr) {
+        int su = 0;
+        for (int i = 0; i < arr.length; i++) {
+            su += arr[i];
+        }
+        if(arr.length == 0) {
+            return 0;
+        }
+        else {
+            return su;
+        }
+    }
+}
+```
+   Задача 4: Переворот строки. Напиши метод reverse(String s), возвращающий строку в обратном порядке.
+import java.util.Scanner;
+
+  
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        String s = "Hello";
+        reverse(s);
+    }
+    static String reverse(String s) {
+        char[] chars = s.toCharArray();
+        for (int i = chars.length - 1; i > -1; i--) {
+            System.out.print(chars[i]);
+        }
+    }
+}
+```
