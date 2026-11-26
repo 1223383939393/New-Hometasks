@@ -1,58 +1,75 @@
-import java.util.Random;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Numbers {
-    Random random = new Random();
-    private int randNum = random.nextInt(1000, 10000);
+    private int randNum;
+    private int[] ranArr = new int[4];
     private boolean state = false;
 
+    public Numbers() {
+        // Генерируем 4-значное число с неповторяющимися цифрами
+        List<Integer> digits = new ArrayList<>();
+        for (int i = 0; i <= 9; i++) {
+            digits.add(i);
+        }
+        Collections.shuffle(digits);
+        if (digits.get(0) == 0) {
+            Collections.swap(digits, 0, 1); // первая цифра не 0
+        }
+        for (int i = 0; i < 4; i++) {
+            ranArr[i] = digits.get(i);
+        }
+        randNum = ranArr[0] * 1000 + ranArr[1] * 100 + ranArr[2] * 10 + ranArr[3];
+    }
+
     public boolean check(int j) {
-        int num1 = j % 10;
-        int num2 = j / 10;
-        int num3 = num2 % 10;
-        int num4 = num2 / 10;
-        int num5 = num4 % 10;
-        int num6 = num4 / 10;
-        int[] inpArr = {num1, num3, num5, num6};
+        if (j < 1000 || j > 9999) {
+            System.out.println("Введите строго 4-значное число!");
+            return false;
+        }
 
-        int tan1 = randNum % 10;
-        int tan2 = randNum / 10;
-        int tan3 = tan2 % 10;
-        int tan4 = tan2 / 10;
-        int tan5 = tan4 % 10;
-        int tan6 = tan4 /10;
-        int[] ranArr = {tan1, tan3, tan5, tan6};
+        // Разбиваем по порядку слева направо
+        int[] inpArr = {
+            j / 1000,
+            (j / 100) % 10,
+            (j / 10) % 10,
+            j % 10
+        };
 
-        if(j == randNum) {
+        if (j == randNum) {
             state = true;
             System.out.println("Угадал число: " + randNum);
             return state;
-        }
-        else {
+        } else {
             System.out.println("Догадка: " + j);
             System.out.print("Угадал: ");
-            for(int i = 0; i < inpArr.length; i++) {
-                if(inpArr[i] == ranArr[i]) {
+            for (int i = 0; i < inpArr.length; i++) {
+                if (inpArr[i] == ranArr[i]) {
                     System.out.print(inpArr[i]);
-                }
-                else {
+                } else {
                     System.out.print("*");
                 }
             }
             System.out.println();
+
             System.out.print("Числа есть, но не на своем месте: ");
-            for(int i = 0; i < inpArr.length; i++) {
-                for(int k = 0; k < ranArr.length; k++) {
-                    if (inpArr[i] == ranArr[j]) {
-                        if(i == j) {
-                            continue;
-                        }
-                        else{
-                            System.out.print(inpArr[i] + " ");
-                        }
+            List<Integer> almost = new ArrayList<>();
+            for (int i = 0; i < inpArr.length; i++) {
+                if (inpArr[i] == ranArr[i]) continue;
+                for (int k = 0; k < ranArr.length; k++) {
+                    if (i != k && inpArr[i] == ranArr[k] && !almost.contains(inpArr[i])) {
+                        almost.add(inpArr[i]);
                     }
                 }
             }
-            System.out.println();
+            if (almost.isEmpty()) {
+                System.out.println("нет.");
+            } else {
+                for (int i = 0; i < almost.size(); i++) {
+                    System.out.print(almost.get(i) + (i < almost.size() - 1 ? ", " : ".\n"));
+                }
+            }
         }
         return state;
     }
