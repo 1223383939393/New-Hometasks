@@ -5,33 +5,36 @@ void main() {
     while (true) {
         System.out.println("============================");
         System.out.println("Выберите игру:");
-        System.out.println("1.Угадай число");
+        System.out.println("1. Угадай число 2.0");
+        System.out.println("2. Морской бой 2.0");
         System.out.println("0. Выход");
         System.out.println("============================");
         try {
             int gameInp = in.nextInt();
+            in.nextLine(); // очистка буфера
+
             switch (gameInp) {
                 case 1: {
                     Numbers num = new Numbers();
-                    while(true) {
-
-                        System.out.println("Введите число");
+                    while (true) {
+                        System.out.println("Введите 4-значное число:");
                         try {
                             int user = in.nextInt();
-//                            if(user < 1000 && user > 9999) {
-//
-//                            }
+                            in.nextLine();
                             boolean shi = num.check(user);
-                            if(shi) {
+                            if (shi) {
                                 break;
                             }
-                        }
-                        catch (Exception e) {
+                        } catch (Exception e) {
                             System.out.println("Введите число нормально");
                             in.nextLine();
-                            continue;
                         }
                     }
+                    break;
+                }
+                case 2: {
+                    Sea sea = new Sea();
+                    sea.start(in);
                     break;
                 }
                 case 0: {
@@ -39,12 +42,10 @@ void main() {
                 }
                 default:
                     System.out.println("Введи норм число");
-                    in.nextLine();
             }
-
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Не то ввел");
+            in.nextLine();
         }
     }
 }
